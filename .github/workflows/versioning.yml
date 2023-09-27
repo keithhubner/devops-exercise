@@ -14,6 +14,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: Set Origin
+        run: |
+          git remote set-url origin https://github.com/keithhubner/devops-exercise.git
       - name: Get the latest tag, if available
         id: last_tag
         run: |
