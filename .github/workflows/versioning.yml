@@ -82,7 +82,7 @@ jobs:
           if [[ "$MAJOR_LAST" -lt "$MAJOR_JSON" || "$MINOR_LAST" -lt "$MINOR_JSON" ]]; then
             NEW_MAJOR="$MAJOR_JSON"
             NEW_MINOR="$MINOR_JSON"
-            NEW_PATCH=0
+            NEW_PATCH="0"
           else
             NEW_MAJOR="$MAJOR_LAST"
             NEW_MINOR="$MINOR_LAST"
