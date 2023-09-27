@@ -1,4 +1,4 @@
-name: Increment Version and Tag
+name: Version Tag Build Publish
 
 on:
   push:
@@ -138,6 +138,7 @@ jobs:
           RELEASE_BODY="Releasing $NEW_VERSION\n\n ### Changes\n\n$COMMIT_MESSAGES"
           echo "::set-output name=release_body::$RELEASE_BODY"
           echo $RELEASE_BODY
+          echo RELEASE_TITLE
 
       - name: Create Release
         env:
