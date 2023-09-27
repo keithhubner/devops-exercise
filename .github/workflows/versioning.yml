@@ -90,5 +90,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}        
         run: |
           NEW_VERSION="${{ steps.calculate-new-version.outputs.new_version }}"
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
           git tag -a "$NEW_VERSION" -m "Incremented version to $NEW_VERSION"
           git push origin "$NEW_VERSION"
