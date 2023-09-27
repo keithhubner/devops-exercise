@@ -135,7 +135,7 @@ jobs:
           NEW_VERSION="${{ steps.calculate-new-version.outputs.new_version }}"
           COMMIT_MESSAGES="${{ steps.get-commit-messages.outputs.commit_messages }}"
           RELEASE_TITLE="Release $NEW_VERSION"
-          RELEASE_BODY="Releasing $NEW_VERSION\n\n ### Changes\n\n$COMMIT_MESSAGES"
+          RELEASE_BODY="Releasing $NEW_VERSION"$'\n\n'"### Changes"$'\n\n'"$COMMIT_MESSAGES"
           echo "::set-output name=release_body::$RELEASE_BODY"
           echo $RELEASE_BODY
           echo $RELEASE_TITLE
