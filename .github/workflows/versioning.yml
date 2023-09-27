@@ -14,14 +14,15 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: Get Tags
+        id: tags
+        run: |
+          git fetch --tags
+          echo "Tags fetched"   
       - name: Get the last tag
         id: get-last-tag
         run: |
-
-          # Fetch all tags from the repository
-          git fetch --tags
-          # Get the latest tag
-          echo "::set-output name=last_tag::$(git describe --tags `git rev-list --tags --max-count=1`)"
+          echo "latest_tag=$(git describe --tags `git rev-list --tags --max-count=1`)" >> $LAST_TAG
           echo "Last Tag: $LAST_TAG"
  
 
