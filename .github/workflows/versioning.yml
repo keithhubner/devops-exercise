@@ -22,14 +22,14 @@ jobs:
       - name: Get the last tag
         id: get-last-tag
         run: |
-          echo "latest_tag=$(git describe --tags `git rev-list --tags --max-count=1`)" >> $LAST_TAG
+          echo "::set-output name=LAST_TAG::$(git describe --abbrev=0 --tags)"
           echo "Last Tag: $LAST_TAG"
  
 
       - name: Parse the last tag
         id: parse-last-tag
         run: |
-          LAST_TAG="${{ steps.get-last-tag.outputs.last_tag }}"
+          LAST_TAG="${{ steps.get-last-tag.outputs.LAST_TAG }}"
           # Remove the 'v' prefix if present
           TAG=${LAST_TAG#v}
           IFS='.' read -ra PARTS <<< "$TAG"
