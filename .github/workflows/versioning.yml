@@ -17,7 +17,8 @@ jobs:
       - name: Get the last tag
         id: get-last-tag
         run: |
-          echo "latest_tag=$(git describe --tags `git rev-list --tags --max-count=1`)" >> $LAST_TAG
+          git fetch --prune --unshallow
+          LAST_TAG=$(git describe --tags `git rev-list --tags --max-count=1`)
           echo "Last Tag: $LAST_TAG"
           echo "::set-output name=last_tag::$LAST_TAG"
 
