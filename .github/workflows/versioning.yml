@@ -14,22 +14,30 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Get Tags
-        id: tags
+      - name: Get the latest tag, if available
+        id: last_tag
         run: |
-          git fetch --tags
-          echo "Tags fetched"   
-      - name: Get the last tag
-        id: get-last-tag
+          if [ -z "$(git describe --abbrev=0 --tags 2>/dev/null)" ]; then
+            echo "::set-output name=TAG::1.0.0"
+          else
+            echo "::set-output name=TAG::$(git describe --abbrev=0 --tags)"
+          fi
+        shell: bash
+
+      - name: Create initial tag if not exists
+        if: steps.last_tag.outputs.TAG == '1.0.0' # Change this to the initial tag version you prefer
         run: |
-          echo "::set-output name=LAST_TAG::$(git describe --abbrev=0 --tags)"
-          echo "Last Tag: $LAST_TAG"
+          git tag v1.0.0
+          git push origin v1.0.0
+
+      - name: Display last tag
+        run: echo "The last tag is ${{ steps.last_tag.outputs.TAG }}"
  
 
       - name: Parse the last tag
         id: parse-last-tag
         run: |
-          LAST_TAG="${{ steps.get-last-tag.outputs.LAST_TAG }}"
+          LAST_TAG="${{ steps.last_tag.outputs.TAG }}"
           # Remove the 'v' prefix if present
           TAG=${LAST_TAG#v}
           IFS='.' read -ra PARTS <<< "$TAG"
