@@ -46,7 +46,7 @@ jobs:
         id: get-version-json
         run: |
           CURRENT_VERSION_JSON=$(jq -r .version version.json)
-          echo "Current Version from version.json: $CURRENT_VERSION_JSON"
+          echo "Current Version from baseVersion.json: $CURRENT_VERSION_JSON"
           echo "::set-output name=current_version_json::$CURRENT_VERSION_JSON"
 
       - name: Parse current version from version.json
