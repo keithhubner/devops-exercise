@@ -134,6 +134,6 @@ jobs:
         id: publish-release
         if: steps.create-release.outputs.release_body != ''
         run: |
-          NEW_VERSION="${{ steps.get-last-tag.outputs.last_tag }}"
+          NEW_VERSION="${{ steps.calculate-new-version.outputs.new_version }}"
           RELEASE_BODY="${{ steps.create-release.outputs.release_body }}"
           echo "$RELEASE_BODY" | gh release create "$NEW_VERSION" -t "$RELEASE_TITLE" -n -
