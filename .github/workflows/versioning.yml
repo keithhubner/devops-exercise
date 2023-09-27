@@ -17,9 +17,13 @@ jobs:
       - name: Get the last tag
         id: get-last-tag
         run: |
-          LAST_TAG=$(git describe --tags --abbrev=0)
+
+          # Fetch all tags from the repository
+          git fetch --tags
+          # Get the latest tag
+          echo "::set-output name=last_tag::$(git describe --abbrev=0 --tags)"
           echo "Last Tag: $LAST_TAG"
-          echo "::set-output name=last_tag::$LAST_TAG"
+ 
 
       - name: Parse the last tag
         id: parse-last-tag
