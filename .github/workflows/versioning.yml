@@ -20,6 +20,7 @@ jobs:
       - name: Get the latest tag, if available
         id: last_tag
         run: |
+          git fetch --prune --unshallow
           echo "::set-output name=TAG::$(git describe --tags `git rev-list --tags --max-count=1`)"
         shell: bash
 
