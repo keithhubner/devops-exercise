@@ -3,8 +3,8 @@ name: Increment Version
 on:
   push:
     branches: [ "main" ] 
-    # paths:
-    #   - 'version.json'
+    paths:
+      - 'version.json'
   pull_request:
     branches: [ "main" ]
 
@@ -54,7 +54,7 @@ jobs:
             echo "New Version: $NEW_VERSION"
             echo "::set-output name=new_version::$NEW_VERSION"
           fi
-                              
+
       - name: Create and push new tag
         id: create-tag
         if: steps.increment-version.outputs.new_version != ''
