@@ -157,5 +157,5 @@ jobs:
         run: |
           echo $password | docker login ghcr.io -u $username --password-stdin
           docker build -t $REPO_NAME:$TAG .
-          docker push $REPO_NAME:$TAG
+          docker push ghcr.io/keithhubner/$REPO_NAME:$TAG
 
