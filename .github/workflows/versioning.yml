@@ -102,7 +102,11 @@ jobs:
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
           git tag -a "$NEW_VERSION" -m "Incremented version to $NEW_VERSION"
-          git push origin "$NEW_VERSION"
+          if git push origin "$NEW_VERSION"; then
+            echo "::set-output name=tag_created::true"
+          else
+            echo "::set-output name=tag_created::false"
+          fi
 
       - name: Get commit messages since the last tag
         id: get-commit-messages
