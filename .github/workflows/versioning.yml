@@ -7,6 +7,7 @@ on:
 env:
   # Use docker.io for Docker Hub if empty
   REGISTRY: ghcr.io
+  REPO_NAME: ${{ github.event.repository.name }}
   # github.repository as <account>/<repo>
   IMAGE_NAME: keithhubner/devops-exercise
   IMAGE_TAG: 1.0.${{ github.run_number }} # GITHUB_RUN_NUMBER }}
@@ -151,10 +152,10 @@ jobs:
         env:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-          IMAGE_NAME: ${{ env.REGISTRY }}
+         
           TAG: ${{ steps.calculate-new-version.outputs.new_version }}
         run: |
           echo $password | docker login ghcr.io -u $username --password-stdin
-          docker build -t ghcr.io/$username/$IMAGE_NAME:$TAG .
-          docker push ghcr.io/$DOCKER_USERNAME/$IMAGE_NAME:$TAG
+          docker build -t ghcr.io/$username/$REPO_NAME:$TAG .
+          docker push ghcr.io/$DOCKER_USERNAME/$REPO_NAME:$TAG
 
