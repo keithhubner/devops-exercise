@@ -20,18 +20,8 @@ jobs:
       - name: Get the latest tag, if available
         id: last_tag
         run: |
-          if [ -z "$(git describe --tags `git rev-list --tags --max-count=1`)" ]; then
-            echo "::set-output name=TAG::1.0.0"
-          else
-            echo "::set-output name=TAG::$(git describe --tags `git rev-list --tags --max-count=1`)"
-          fi
+          echo "::set-output name=TAG::$(git describe --tags `git rev-list --tags --max-count=1`)"
         shell: bash
-
-      - name: Create initial tag if not exists
-        if: steps.last_tag.outputs.TAG == '1.0.0' # Change this to the initial tag version you prefer
-        run: |
-          git tag 1.0.0
-          git push origin 1.0.0
 
       - name: Display last tag
         run: echo "The last tag is ${{ steps.last_tag.outputs.TAG }}"
