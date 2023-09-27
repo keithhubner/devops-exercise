@@ -103,3 +103,4 @@ jobs:
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
           git tag -a "$NEW_VERSION" -m "Incremented version to $NEW_VERSION"
+          git push origin "v$NEW_VERSION"
