@@ -110,7 +110,7 @@ jobs:
           LAST_TAG="${{ steps.calculate-new-version.outputs.new_version }}"
           # Remove the 'v' prefix if present
           TAG=${LAST_TAG#v}
-          COMMIT_MESSAGES=$(git log --pretty=format:'%h %s' "${TAG}..HEAD")
+          COMMIT_MESSAGES=$(git log -1 --pretty=%B)
           echo "Commit Messages: $COMMIT_MESSAGES"
           echo "::set-output name=commit_messages::$COMMIT_MESSAGES"
 
