@@ -75,6 +75,7 @@ jobs:
         run: |
           MAJOR_LAST="${{ steps.parse-last-tag.outputs.major_last }}"
           MINOR_LAST="${{ steps.parse-last-tag.outputs.minor_last }}"
+          PATCH_LAST="${{ steps.parse-last-tag.outputs.patch_last }}"
           MAJOR_JSON="${{ steps.parse-version-json.outputs.major_json }}"
           MINOR_JSON="${{ steps.parse-version-json.outputs.minor_json }}"
           PATCH_JSON="${{ steps.parse-version-json.outputs.patch_json }}"
@@ -86,7 +87,7 @@ jobs:
           else
             NEW_MAJOR="$MAJOR_LAST"
             NEW_MINOR="$MINOR_LAST"
-            NEW_PATCH=$((PATCH_JSON + 1))
+            NEW_PATCH=$((PATCH_LAST + 1))
           fi
 
           NEW_VERSION="$NEW_MAJOR.$NEW_MINOR.$NEW_PATCH"
