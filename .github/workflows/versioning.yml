@@ -149,7 +149,7 @@ jobs:
           NEW_VERSION="${{ steps.calculate-new-version.outputs.new_version }}"
           RELEASE_BODY="${{ steps.create-release.outputs.release_body }}"
           RELEASE_TITLE="${{ steps.create-release.outputs.release_title }}"
-          gh release create "$NEW_VERSION" -t "$RELEASE_TITLE" -n "$RELEASE_BODY"
+          gh release create "$NEW_VERSION" -t $RELEASE_TITLE -n $RELEASE_BODY
 
       - name: Build and push Docker image
         env:
