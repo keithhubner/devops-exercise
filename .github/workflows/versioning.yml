@@ -53,4 +53,14 @@ jobs:
             NEW_VERSION="$MAJOR.$MINOR.$PATCH"
             echo "New Version: $NEW_VERSION"
             echo "::set-output name=new_version::$NEW_VERSION"
-          fi                    
+          fi
+                              
+      - name: Create and push new tag
+        id: create-tag
+        if: steps.increment-version.outputs.new_version != ''
+        run: |
+          if [[ "${{ steps.version-changed.outputs.version_changed }}" == "true" ]]; then
+            NEW_VERSION="${{ steps.increment-version.outputs.new_version }}"
+            git tag -a "v$NEW_VERSION" -m "Incremented version to v$NEW_VERSION"
+            git push origin "v$NEW_VERSION"
+          fi          
