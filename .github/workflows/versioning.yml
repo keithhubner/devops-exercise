@@ -163,11 +163,10 @@ jobs:
         env:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-          IMAGE_NAME: $REPO_NAME
           TAG: ${{ steps.calculate-new-version.outputs.new_version }}
         run: |
           echo $password | docker login ghcr.io -u $username --password-stdin
-          docker pull ghcr.io/$username/$IMAGE_NAME:$TAG # Pull the specified version
-          docker tag ghcr.io/$username/$IMAGE_NAME:$TAG ghcr.io/$username/$IMAGE_NAME:latest # Tag 'latest'
-          docker push ghcr.io/$username/$IMAGE_NAME:latest # Push 'latest' to the registry
+          docker pull ghcr.io/keithhubner/$REPO_NAME:$TAG # Pull the specified version
+          docker tag ghcr.io/keithhubner/$REPO_NAME:$TAG ghcr.io/$username/$IMAGE_NAME:latest # Tag 'latest'
+          docker push ghcr.io/keithhubner/$REPO_NAME:latest # Push 'latest' to the registry
 
