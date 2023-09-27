@@ -93,6 +93,7 @@ jobs:
           echo "::set-output name=new_version::$NEW_VERSION"
 
       - name: Create and push new tag
+        id: create-tag
         if: steps.calculate-new-version.outputs.new_version != ''
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}        
@@ -102,3 +103,33 @@ jobs:
           git config user.email "actions@github.com"
           git tag -a "$NEW_VERSION" -m "Incremented version to $NEW_VERSION"
           git push origin "$NEW_VERSION"
+
+      - name: Get commit messages since the last tag
+        id: get-commit-messages
+        run: |
+          LAST_TAG="${{ steps.calculate-new-version.outputs.new_version }}"
+          # Remove the 'v' prefix if present
+          TAG=${LAST_TAG#v}
+          COMMIT_MESSAGES=$(git log --pretty=format:'%h %s' "${TAG}..HEAD")
+          echo "Commit Messages: $COMMIT_MESSAGES"
+          echo "::set-output name=commit_messages::$COMMIT_MESSAGES"
+
+      - name: Create GitHub Release
+        id: create-release
+        if: steps.create-tag.outputs.tag_created == 'true'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          NEW_VERSION="${{ steps.calculate-new-version.outputs.new_version }}"
+          COMMIT_MESSAGES="${{ steps.get-commit-messages.outputs.commit_messages }}"
+          RELEASE_TITLE="Release $NEW_VERSION"
+          RELEASE_BODY="Releasing $NEW_VERSION\n\n ### Changes\n\n$COMMIT_MESSAGES"
+          echo "::set-output name=release_body::$RELEASE_BODY"
+
+      - name: Create Release
+        id: publish-release
+        if: steps.create-release.outputs.release_body != ''
+        run: |
+          NEW_VERSION="${{ steps.get-last-tag.outputs.last_tag }}"
+          RELEASE_BODY="${{ steps.create-release.outputs.release_body }}"
+          echo "$RELEASE_BODY" | gh release create "$NEW_VERSION" -t "$RELEASE_TITLE" -n -
