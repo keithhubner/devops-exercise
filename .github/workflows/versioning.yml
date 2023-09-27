@@ -3,8 +3,8 @@ name: Increment Version
 on:
   push:
     branches: [ "main" ] 
-    paths:
-      - 'version.json'
+    # paths:
+    #   - 'version.json'
   pull_request:
     branches: [ "main" ]
 
