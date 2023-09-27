@@ -14,6 +14,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: Get Tags
+        run: |
+          git fetch --tags
+          echo "Tags fetched" 
       - name: Set Origin
         run: |
           git remote set-url origin https://github.com/keithhubner/devops-exercise.git
