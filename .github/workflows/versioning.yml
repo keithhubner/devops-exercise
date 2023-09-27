@@ -131,6 +131,8 @@ jobs:
           echo "::set-output name=release_body::$RELEASE_BODY"
 
       - name: Create Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         id: publish-release
         if: steps.create-release.outputs.release_body != ''
         run: |
