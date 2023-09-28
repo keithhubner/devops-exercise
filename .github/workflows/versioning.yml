@@ -158,8 +158,9 @@ jobs:
          
           TAG: ${{ steps.calculate-new-version.outputs.new_version }}
         run: |
+          NEW_VERSION="${{ steps.calculate-new-version.outputs.new_version }}"
           echo $password | docker login ghcr.io -u $username --password-stdin
-          docker build --build-arg SET_VERSION="3.1.2" -t ghcr.io/keithhubner/$REPO_NAME:$TAG . 
+          docker build --build-arg SET_VERSION="$NEW_VERSION" -t ghcr.io/keithhubner/$REPO_NAME:$TAG . 
           docker push ghcr.io/keithhubner/$REPO_NAME:$TAG
 
       - name: Update 'latest' tag
