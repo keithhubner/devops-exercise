@@ -7,6 +7,8 @@
 ARG PYTHON_VERSION=3.11.3
 FROM python:${PYTHON_VERSION}-slim as base
 
+ENV VERSION=${SET_VERSION}
+
 # Prevents Python from writing pyc files.
 ENV PYTHONDONTWRITEBYTECODE=1
 
