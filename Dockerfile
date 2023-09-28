@@ -43,14 +43,16 @@ RUN apt-get update && apt-get install -y jq
 
 
 
-# Switch to the non-privileged user to run the application.
-USER appuser
+
 
 # Copy the source code into the container.
 COPY . .
 
 # Use the exec form to update the JSON file
-RUN jq '.version = "3.2.1"' version.json > /tmp/temp.json && mv /tmp/temp.json version.json
+RUN jq '. += { "version": "3.2.1" }' version.json > /tmp/tmp.json && mv /tmp/tmp.json version.json
+
+# Switch to the non-privileged user to run the application.
+USER appuser
 
 # Expose the port that the application listens on.
 EXPOSE 8080
