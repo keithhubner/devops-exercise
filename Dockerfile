@@ -7,8 +7,6 @@
 ARG PYTHON_VERSION=3.11.3
 FROM python:${PYTHON_VERSION}-slim as base
 
-ENV VERSION=${SET_VERSION}
-
 # Prevents Python from writing pyc files.
 ENV PYTHONDONTWRITEBYTECODE=1
 
@@ -49,7 +47,7 @@ RUN apt-get update && apt-get install -y jq
 COPY . .
 
 # Use the exec form to update the JSON file
-RUN jq '. += { "version": "3.2.1" }' version.json > /tmp/tmp.json && mv /tmp/tmp.json version.json
+RUN jq --arg new_value "$SET_VERSION" '. += { "version": "$new_value" }' version.json > /tmp/tmp.json && mv /tmp/tmp.json version.json
 
 # Switch to the non-privileged user to run the application.
 USER appuser
