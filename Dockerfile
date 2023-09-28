@@ -38,6 +38,12 @@ RUN --mount=type=cache,target=/root/.cache/pip \
     --mount=type=bind,source=requirements.txt,target=requirements.txt \
     python -m pip install -r requirements.txt
 
+# Install jq (if not already installed)
+RUN apt-get update && apt-get install -y jq
+
+# Use the exec form to update the JSON file
+RUN jq '.version = "3.2.1"' version.json > temp.json && mv temp.json version.json
+
 # Switch to the non-privileged user to run the application.
 USER appuser
 
