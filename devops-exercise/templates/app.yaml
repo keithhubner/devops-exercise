@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+    name: {{ .Values.app.name }}
+    namespace: {{ .Release.Namespace }}
+    labels:
+        app: {{ .Values.app.name }}
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            app: {{ .Values.app.name }}
+    template: 
+        metadata:
+            labels:
+                app: {{ .Values.app.name }}
+        spec: 
+            containers:
+            - name: {{ .Values.app.name }}
+              image: "{{ .Values.app.image.name }}:{{ .Values.app.image.version }}"
+              env:
+                - name: BW_MESSAGE
+                  value: {{ .Values.app.env.message }}
+              livenessProbe:
+                httpGet:
+                  path: /
+                  port: {{ .Values.app.port }}
+                initialDelaySeconds: 30
+              ports:
+                - containerPort: {{ .Values.app.port }}
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+    name: {{ .Values.app.service.name }}
+    namespace: {{ .Release.Namespace }}
+spec:
+    selector:
+        app: {{ .Values.app.name }}
+    ports:
+    - port: {{ .Values.app.service.port }}
+      targetPort: {{ .Values.app.port }}

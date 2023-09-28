@@ -1,0 +1,11 @@
+app:
+  name: "app"
+  image: 
+    name: "ghcr.io/keithhubner/devops-exercise"
+    version: "latest"
+  port: 8080
+  env:
+    message: "hey"
+  service:
+    name: "app"
+    port: 8080
