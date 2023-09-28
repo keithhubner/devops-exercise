@@ -5,7 +5,7 @@
 # https://docs.docker.com/engine/reference/builder/
 
 ARG PYTHON_VERSION=3.11.3
-ARG SET_VERSION
+
 FROM python:${PYTHON_VERSION}-slim as base
 
 # Prevents Python from writing pyc files.
@@ -42,6 +42,8 @@ RUN apt-get update && apt-get install -y jq
 
 # Copy the source code into the container.
 COPY . .
+
+ARG SET_VERSION="0.0.0"
 
 # Use the exec form to update the JSON file
 RUN jq --arg new_value "$SET_VERSION" '. += { "version": $new_value }' version.json > /tmp/tmp.json && mv /tmp/tmp.json version.json
