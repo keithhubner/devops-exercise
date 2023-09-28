@@ -5,6 +5,7 @@
 # https://docs.docker.com/engine/reference/builder/
 
 ARG PYTHON_VERSION=3.11.3
+ARG SET_VERSION
 FROM python:${PYTHON_VERSION}-slim as base
 
 # Prevents Python from writing pyc files.
@@ -38,10 +39,6 @@ RUN --mount=type=cache,target=/root/.cache/pip \
 
 # Install jq (if not already installed)
 RUN apt-get update && apt-get install -y jq
-
-
-
-
 
 # Copy the source code into the container.
 COPY . .
