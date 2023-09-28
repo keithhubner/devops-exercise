@@ -47,7 +47,7 @@ RUN apt-get update && apt-get install -y jq
 COPY . .
 
 # Use the exec form to update the JSON file
-RUN jq --arg new_value "$SET_VERSION" '. += { "version": "$new_value" }' version.json > /tmp/tmp.json && mv /tmp/tmp.json version.json
+RUN jq --arg new_value "$SET_VERSION" '. += { "version": $new_value }' version.json > /tmp/tmp.json && mv /tmp/tmp.json version.json
 
 # Switch to the non-privileged user to run the application.
 USER appuser
