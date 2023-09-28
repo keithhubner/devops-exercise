@@ -50,7 +50,7 @@ USER appuser
 COPY . .
 
 # Use the exec form to update the JSON file
-RUN jq '.version = "3.2.1"' version.json > temp.json && mv temp.json version.json
+RUN jq '.version = "3.2.1"' version.json > /tmp/temp.json && mv /tmp/temp.json version.json
 
 # Expose the port that the application listens on.
 EXPOSE 8080
